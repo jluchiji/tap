@@ -1,0 +1,46 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/primary_text_default_material_dark"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/activity_small_margin">
+
+    <TextView
+        android:id="@+id/title_label"
+        style="@style/Base.TextAppearance.AppCompat.Large"
+        android:textSize="@dimen/activity_large_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="@dimen/activity_large_margin" />
+
+    <Button
+        android:id="@+id/leave_button"
+        android:text="@string/leave_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:onClick="buttonLeave"
+        android:layout_marginBottom="@dimen/activity_large_margin"
+        android:layout_below="@id/title_label" />
+
+    <TextView
+        android:id="@+id/instructions_label"
+        android:text="@string/instructions_text"
+        style="@style/Base.TextAppearance.AppCompat.Medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="@dimen/activity_small_margin"
+        android:layout_below="@id/leave_button" />
+
+    <Button
+        android:id="@+id/tap_button"
+        android:text="@string/tap_text"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_large_margin"
+        android:gravity="center"
+        android:onClick="buttonTap"
+        android:layout_below="@id/instructions_label" />
+
+</RelativeLayout>

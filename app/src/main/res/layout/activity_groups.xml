@@ -1,0 +1,61 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/primary_text_default_material_dark"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/activity_small_margin">
+
+    <TextView
+        android:id="@+id/title_label"
+        android:text="@string/groups_text"
+        style="@style/Base.TextAppearance.AppCompat.Large"
+        android:textSize="@dimen/activity_large_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="@dimen/activity_small_margin" />
+
+    <EditText
+        android:id="@+id/search_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="@dimen/activity_small_margin"
+        android:layout_below="@id/title_label" />
+
+    <LinearLayout
+        android:id="@+id/button_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/activity_small_margin"
+        android:layout_below="@id/search_text">
+
+        <Button
+            android:id="@+id/search_button"
+            android:text="@string/search_text"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:onClick="buttonSearch" />
+
+        <Button
+            android:id="@+id/create_button"
+            android:text="@string/create_text"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:onClick="buttonCreate" />
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/people_list"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/button_layout">
+    </ListView>
+
+</RelativeLayout>

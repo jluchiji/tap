@@ -1,0 +1,79 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/primary_text_default_material_dark"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/activity_small_margin">
+
+    <ImageView
+        android:id="@+id/logo_image"
+        android:src="@drawable/logo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="@dimen/activity_small_margin" />
+
+    <TextView
+        android:id="@+id/username_label"
+        android:text="@string/username_text"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="@dimen/activity_small_margin"
+        android:layout_below="@id/logo_image" />
+
+    <EditText
+        android:id="@+id/username_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="@dimen/activity_small_margin"
+        android:layout_below="@id/username_label" />
+
+    <TextView
+        android:id="@+id/password_label"
+        android:text="@string/password_text"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="@dimen/activity_small_margin"
+        android:layout_below="@id/username_text" />
+
+    <EditText
+        android:id="@+id/password_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="@dimen/activity_small_margin"
+        android:layout_below="@id/password_label" />
+
+    <Button
+        android:id="@+id/log_in_button"
+        android:text="@string/log_in_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:onClick="buttonLogIn"
+        android:layout_below="@id/password_text" />
+
+    <Button
+        android:id="@+id/create_account_button"
+        android:text="@string/create_account_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:onClick="buttonCreateAccount"
+        android:layout_below="@id/log_in_button" />
+
+    <Button
+        android:id="@+id/forgot_password_button"
+        android:text="@string/forgot_password_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:onClick="buttonForgotPassword"
+        android:layout_below="@id/create_account_button" />
+
+</RelativeLayout>

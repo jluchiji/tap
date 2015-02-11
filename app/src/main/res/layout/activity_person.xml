@@ -1,0 +1,55 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/primary_text_default_material_dark"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/activity_small_margin">
+
+    <TextView
+        android:id="@+id/title_label"
+        style="@style/Base.TextAppearance.AppCompat.Large"
+        android:textSize="@dimen/activity_large_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="@dimen/activity_large_margin" />
+
+    <TextView
+        android:id="@+id/friends_label"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="@dimen/activity_small_margin"
+        android:layout_below="@id/title_label" />
+
+    <Button
+        android:id="@+id/request_button"
+        android:text="@string/request_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/activity_large_margin"
+        android:onClick="buttonRequest"
+        android:layout_below="@id/friends_label" />
+
+    <Spinner
+        android:id="@+id/groups_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/activity_small_margin"
+        android:layout_below="@id/request_button">
+    </Spinner>
+
+    <Button
+        android:id="@+id/invite_button"
+        android:text="@string/invite_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/activity_large_margin"
+        android:onClick="buttonInvite"
+        android:layout_below="@id/groups_spinner" />
+
+</RelativeLayout>
