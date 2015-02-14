@@ -1,4 +1,5 @@
 util     = require('../lib/util.js')
+crypto   = require('../lib/crypto.js')
 Conveyor = require('../lib/conveyor.js')
 
 module.exports = (db) ->

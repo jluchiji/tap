@@ -34,6 +34,9 @@ module.exports = (db) ->
     .get accessCtrl.user()
     .get auth.renew()
 
+    # DELETE /api/auth
+    .delete accessCtrl.user()
+    .delete auth.revoke()
 
   # /user
   api.route '/users'
