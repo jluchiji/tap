@@ -4,7 +4,7 @@ express = require('express')
 module.exports = (db) ->
 
   # Middleware
-  #authorize = require('./middleware/authorize.js')(db)
+  accessCtrl = require('./mware/access-control.js')(db)
 
   # Load actual handlers for /api
   auth     = require('./api/auth.js')(db)
@@ -21,11 +21,19 @@ module.exports = (db) ->
   # API Routes
   root.use '/api', api = express.Router()
 
+  # /*
+  api.use '*', accessCtrl.tokenParser()
+
   # /auth
   api.route '/auth'
 
     # POST /api/auth
     .post auth.create()
+
+    # GET /api/auth
+    .get accessCtrl.user()
+    .get auth.renew()
+
 
   # /user
   api.route '/users'

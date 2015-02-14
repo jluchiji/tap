@@ -9,7 +9,8 @@ module.exports = (db) ->
   self = { }
 
 
-  # Error message that gets returned to client instead of actual server-side error.
+  # Error message that gets returned to client instead of
+  # actual server-side error.
   errorMessage = status: 401, message: 'Authorization denied.'
 
   # Verifies user credentials and
