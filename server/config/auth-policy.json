@@ -1,0 +1,6 @@
+{
+  "salt_size": 16,
+  "auth_size": 16,
+  "general_ttl": 86400,
+  "secure_ttl":  7200
+}

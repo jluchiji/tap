@@ -3,7 +3,9 @@ coffee    = require 'gulp-coffee'
 lint      = require 'gulp-coffeelint'
 sourcemap = require 'gulp-sourcemaps'
 
-gulp.task 'default', ->
+gulp.task 'default', ['scripts', 'config', 'config:sql']
+
+gulp.task 'scripts', ->
 
   gulp.src ['src/**/*.coffee'], base: './src'
     .pipe lint()
@@ -12,3 +14,13 @@ gulp.task 'default', ->
     .pipe coffee()
     .pipe sourcemap.write './'
     .pipe gulp.dest './dist'
+
+gulp.task 'config', ->
+
+  gulp.src ['config/**/*.json'], base: './config'
+    .pipe gulp.dest './dist/config'
+
+gulp.task 'config:sql', ->
+
+  gulp.src ['config/**/*.sql'], base: './config'
+    .pipe gulp.dest './dist/config'
