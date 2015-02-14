@@ -7,7 +7,7 @@ module.exports = (db) ->
   #authorize = require('./middleware/authorize.js')(db)
 
   # Load actual handlers for /api
-  #tokens   = require('./api/auth.js')(db)
+  auth     = require('./api/auth.js')(db)
   users    = require('./api/users.js')(db)
   #projects = require('./api/projects.js')(db)
   #members  = require('./api/members.js')(db)
@@ -22,6 +22,10 @@ module.exports = (db) ->
   root.use '/api', api = express.Router()
 
   # /auth
+  api.route '/auth'
+
+    # POST /api/auth
+    .post auth.create()
 
   # /user
   api.route '/users'

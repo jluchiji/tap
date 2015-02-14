@@ -6,14 +6,16 @@ module.exports = (db) ->
   self = { }
 
   self.findByUname = (uname) ->
-    db.get squel.select()
+    query = squel.select()
       .from('users')
       .where('uname = ?', uname)
+    db.get query
 
   self.findById = (id) ->
-    db.get squel.select()
+    query = squel.select()
       .from('users')
       .where('id = ?', id)
+    db.get query
 
   self.create = (id, uname, hash, auth) ->
     query = squel.insert()
