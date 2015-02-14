@@ -65,11 +65,13 @@ class ChasConveyor.ServerError extends Conveyor.Error
   @convert: (req, error) ->
 
     # Detect null/undefined req objects
-    if not req then throw new Error('Cannot convert errors without a request object!')
+    if not req
+      throw new Error('Cannot convert errors without a request object!')
 
     # No error object supplied
     if not error
-      return new ChasConveyor.ServerError(req, 500, 'Error not specified.', error)
+      return new ChasConveyor.ServerError(
+        req, 500, 'Error not specified.', error)
 
     # Simple string describing the error
     if _.isString(error)
@@ -81,7 +83,8 @@ class ChasConveyor.ServerError extends Conveyor.Error
 
     # SQLite Errors (have errno and code defined)
     if error.errno and error.code
-      return new ChasConveyor.ServerError(req, 500, 'Database access failed.', error)
+      return new ChasConveyor.ServerError(
+        req, 500, 'Database access failed.', error)
 
     # ChasConveyor.ServerError instances returned as is
     if error instanceof ChasConveyor.ServerError then return error

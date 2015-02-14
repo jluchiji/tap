@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/jluchiji/tap",
   "dependencies": {
-    "bcryptjs": "^2.1.0",
+    "bcrypt-nodejs": "0.0.3",
     "bluebird": "^2.5.1",
     "body-parser": "^1.10.0",
     "chalk": "^0.5.1",

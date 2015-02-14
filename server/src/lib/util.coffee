@@ -14,7 +14,8 @@ util = module.exports
 # --------------------------------------------------------------------------- #
 util.schema = (data) ->
   if not schema(@config.schema)(data)
-    @conveyor.panic(@config.message ? 'Invalid arguments.', @config.status ? 400)
+    @conveyor.panic(
+      @config.message ? 'Invalid arguments.', @config.status ? 400)
   return data
 
 # --------------------------------------------------------------------------- #
