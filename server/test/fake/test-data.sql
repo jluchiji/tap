@@ -1,0 +1,76 @@
+PRAGMA foreign_keys=OFF;
+BEGIN TRANSACTION;
+CREATE TABLE users (
+  `id`        TEXT    NOT NULL  PRIMARY KEY,
+  `email`     TEXT    NOT NULL  UNIQUE,
+  `hash`      TEXT    NOT NULL,
+  `auth`      TEXT    NOT NULL,
+  `name`      TEXT    NOT NULL,
+  `timerId`   TEXT,
+  FOREIGN KEY(timerId) REFERENCES tasks(id) ON DELETE SET NULL
+);
+INSERT INTO "users" VALUES('USER01','user01@chas.io','$2a$08$x6buX8YLmqwVw04lafKCUeAh1x.HVmdkGl9BI.sTM/8Xs5hui39Oa','m99GUO92jIrY5eitpwtz8w==','User 01',NULL);
+INSERT INTO "users" VALUES('USER02','user02@chas.io','$2a$08$mNE6pV18cxhhSUN/Fe5Hp.C.9e5KCZXACplIXuLJ6CvFBDevYJvKy','mexR5XD5MaRkdPI1J3Aymw==','User 02',NULL);
+INSERT INTO "users" VALUES('USER03','user03@chas.io','$2a$08$FDq8lFxxmyzqLORUNCKbougOuHRxj/qp.FPqBS3UYFDYYmwYq5Vc.','PVP49yvP/nXy6ajzvqO85g==','User 03',NULL);
+INSERT INTO "users" VALUES('USER04','user04@chas.io','$2a$08$glHyGdcQyYYdIyA47zDIZ.OzPIsrrI7SgG8E6rHHw9yuJl9mn/eIC','EuDjBcdHghTJTZGJtR8z8A==','User 04',NULL);
+CREATE TABLE user_proj (
+  `userId`    TEXT    NOT NULL,
+  `projId`    TEXT    NOT NULL,
+  `pending`   INTEGER DEFAULT 1,
+  `canWrite`  INTEGER DEFAULT 0,
+  `notify`    INTEGER DEFAULT 0,
+  FOREIGN KEY(userId) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY(projId) REFERENCES projects(id) ON DELETE CASCADE,
+  UNIQUE(`userId`, `projId`) ON CONFLICT FAIL
+);
+INSERT INTO "user_proj" VALUES('USER01','U01P01',0,1,0);
+INSERT INTO "user_proj" VALUES('USER02','U02P01',0,1,0);
+INSERT INTO "user_proj" VALUES('USER02','U02P02',0,1,0);
+INSERT INTO "user_proj" VALUES('USER03','U03P01',0,1,0);
+INSERT INTO "user_proj" VALUES('USER03','U03P02',0,1,0);
+INSERT INTO "user_proj" VALUES('USER03','U03P03',0,1,0);
+INSERT INTO "user_proj" VALUES('USER03','U03P04',0,1,0);
+INSERT INTO "user_proj" VALUES('USER03','U03P05',0,1,0);
+INSERT INTO "user_proj" VALUES('USER03','U03P06',0,1,0);
+INSERT INTO "user_proj" VALUES('USER03','U03P07',0,1,0);
+INSERT INTO "user_proj" VALUES('USER03','U03P08',0,1,0);
+INSERT INTO "user_proj" VALUES('USER01','U02P01',0,1,0);
+INSERT INTO "user_proj" VALUES('USER01','U02P02',0,0,0);
+INSERT INTO "user_proj" VALUES('USER03','U02P01',0,1,0);
+INSERT INTO "user_proj" VALUES('USER03','U02P02',0,0,0);
+CREATE TABLE projects (
+  `id`        TEXT    NOT NULL  PRIMARY KEY,
+  `ownerId`   TEXT    NOT NULL,
+  `name`      TEXT    NOT NULL  COLLATE NOCASE,
+  FOREIGN KEY(ownerId) REFERENCES users(id)
+);
+INSERT INTO "projects" VALUES('U01P01','USER01','User 01 Project 01');
+INSERT INTO "projects" VALUES('U02P01','USER02','User 02 Project 01');
+INSERT INTO "projects" VALUES('U02P02','USER02','User 02 Project 02');
+INSERT INTO "projects" VALUES('U03P01','USER03','User 03 Project 01');
+INSERT INTO "projects" VALUES('U03P02','USER03','User 03 Project 02');
+INSERT INTO "projects" VALUES('U03P03','USER03','User 03 Project 03');
+INSERT INTO "projects" VALUES('U03P04','USER03','User 03 Project 04');
+INSERT INTO "projects" VALUES('U03P05','USER03','User 03 Project 05');
+INSERT INTO "projects" VALUES('U03P06','USER03','User 03 Project 06');
+INSERT INTO "projects" VALUES('U03P07','USER03','User 03 Project 07');
+INSERT INTO "projects" VALUES('U03P08','USER03','User 03 Project 08');
+CREATE TABLE tasks (
+  `id`        TEXT    NOT NULL  PRIMARY KEY,
+  `projId`    TEXT,
+  `userId`    TEXT    NOT NULL,
+  `name`      TEXT    NOT NULL  COLLATE NOCASE,
+  `start`     INTEGER NOT NULL,
+  `end`       INTEGER,
+  FOREIGN KEY(userId) REFERENCES users(id),
+  FOREIGN KEY(projId) REFERENCES projects(id) ON DELETE CASCADE
+);
+INSERT INTO "tasks" VALUES('U02P01T01','U02P01','USER02','USER02 PROJECT01 TASK01',100000,100001);
+INSERT INTO "tasks" VALUES('U02P02T01','U02P02','USER02','USER02 PROJECT02 TASK01',100000,100001);
+INSERT INTO "tasks" VALUES('U02P01T02','U02P01','USER02','USER02 PROJECT01 TASK02',100000,100001);
+INSERT INTO "tasks" VALUES('U02P01T03','U02P01','USER01','USER02 PROJECT01 TASK03 (USER01)',100000,100001);
+INSERT INTO "tasks" VALUES('U03P00T01',NULL,'USER03','USER03 NO PROJECT TASK01',100000,100001);
+CREATE UNIQUE INDEX user_email ON users (email);
+CREATE INDEX user_proj_userid ON user_proj (userId);
+CREATE INDEX user_proj_projid ON user_proj (projId);
+COMMIT;

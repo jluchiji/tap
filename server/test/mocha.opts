@@ -1,0 +1,4 @@
+-i
+-g fake
+--recursive
+--compilers coffee:coffee-script/register
