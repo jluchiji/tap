@@ -12,7 +12,8 @@ CREATE TABLE friends (
   `friendId`  TEXT    NOT NULL,
   `accepted`  INT     DEFAULT 0,
   FOREIGN KEY(ownerId) REFERENCES users(id) ON DELETE CASCADE,
-  FOREIGN KEY(friendId) REFERENCES users(id) ON DELETE CASCADE
+  FOREIGN KEY(friendId) REFERENCES users(id) ON DELETE CASCADE,
+  UNIQUE(`ownerId`, `friendId`) ON CONFLICT FAIL
 );
 CREATE INDEX friends_owner ON friends(ownerId);
 

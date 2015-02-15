@@ -27,4 +27,12 @@ module.exports = (db) ->
       )
     db.all query
 
+  self.add = (uid, user, invitee) ->
+    query = squel.insert()
+      .into('friends')
+      .set('id', uid)
+      .set('ownerId', user.id)
+      .set('friendId', invitee.id)
+    db.run query
+
   return self
