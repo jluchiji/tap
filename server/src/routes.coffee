@@ -47,8 +47,22 @@ module.exports = (db) ->
   # /friends
   api.route '/friends'
 
+    .all accessCtrl.user()
+
     # GET /api/friends
-    .get accessCtrl.user()
     .get friends.get()
+
+    # POST /api/friends
+    .post friends.add()
+
+  api.route '/friends/:id'
+
+    .all accessCtrl.user()
+
+    # DELETE /api/friends/:id
+    .delete friends.remove()
+
+    # PUT /api/friends/:id
+    .put friends.accept()
 
   return root
