@@ -57,6 +57,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.nickhauser.tap.GroupsActivity" />
         </activity>
+        <activity
+            android:name=".NotificationsActivity"
+            android:label="@string/title_activity_notifications"
+            android:parentActivityName=".MenuActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.nickhauser.tap.MenuActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -4,14 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-
+import android.widget.Toast;
 import java.util.ArrayList;
 
 
@@ -50,6 +48,20 @@ public class GroupsActivity extends ActionBarActivity {
 
     //Perform create group action in response to button press
     public void buttonCreate(View view) {
+        //get the group name
+        EditText searchTextBox = (EditText) findViewById(R.id.search_text);
+        String groupName = searchTextBox.getText().toString();
+
+        //create the group or display an error
+        if (Global.isStringValid(groupName, 16, false)) {
+            createGroup(groupName);
+        }else {
+            Toast.makeText(this, "Group names must contain less than 16 letters and must not include spaces.", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    //Request that the server create a group with the name provided
+    private void createGroup(String groupName) {
         //TODO - this should actually be implemented by a call to the server; this method is a stub
     }
 

@@ -23,7 +23,7 @@ public class MenuActivity extends ActionBarActivity {
     //Perform view notifications action in response to button press
     //move into the notifications activity
     public void buttonNotifications(View view) {
-        //TODO - this method is unimplemented as yet
+        startActivity(new Intent(this, NotificationsActivity.class));
     }
 
     //Perform view people action in response to button press

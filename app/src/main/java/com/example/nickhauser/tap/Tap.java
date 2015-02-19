@@ -58,27 +58,15 @@ public class Tap extends ActionBarActivity {
         String password = textBox.getText().toString();
 
         //check that the provided credentials meet security requirements
-        if (!isUsernameValid(username)) {
-            Toast.makeText(this, "Your username does not meet the requirements.", Toast.LENGTH_LONG).show();
-        }else if (!isPasswordValid(password)) {
-            Toast.makeText(this, "Your password does not meet the requirements.", Toast.LENGTH_LONG).show();
+        if (!Global.isStringValid(username, 16, false)) {
+            Toast.makeText(this, "Usernames must contain less than 16 letters and must not include spaces.", Toast.LENGTH_LONG).show();
+        }else if (!Global.isStringValid(password, 128, true)) {
+            Toast.makeText(this, "Your password is too long.", Toast.LENGTH_LONG).show();
         }else if (accountExists(username)) {
             Toast.makeText(this, "An account with that name already exists.", Toast.LENGTH_LONG).show();
         }else {
             createAccount(username, password);
         }
-    }
-
-    //Check that a username meets security requirements
-    private boolean isUsernameValid(String username) {
-        //TODO - this method is unimplemented as yet
-        return true;
-    }
-
-    //Check that a password meets securtiy requirements
-    private boolean isPasswordValid(String password) {
-        //TODO - this method is unimplemented as yet
-        return true;
     }
 
     //Ask the server whether the specified username already exists

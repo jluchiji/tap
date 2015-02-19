@@ -7,7 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-
+//TODO (NGH) - this should include optionality to activate a group for receiving vibrations
 public class GroupActivity extends ActionBarActivity {
     private String groupSelected;
 

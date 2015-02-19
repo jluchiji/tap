@@ -20,12 +20,16 @@
     <string name="tap_text">Tap Group</string>
     <string name="request_text">Add to Friends</string>
     <string name="invite_text">Invite to Group</string>
+    <string name="selection_text">Selected Notification:</string>
+    <string name="accept_text">Accept</string>
+    <string name="decline_text">Decline</string>
     <string name="title_activity_menu">Tap - Menu</string>
     <string name="title_activity_people">Tap - People</string>
     <string name="title_activity_person">Tap - Person</string>
     <string name="title_activity_groups">Tap - Groups</string>
+    <string name="title_activity_group">Tap - Group</string>
+    <string name="title_activity_notifications">Tap - Notifications</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_group">Tap - Group</string>
 
 </resources>
