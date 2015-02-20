@@ -4,6 +4,7 @@
   "description": "Server backend for Tap!",
   "main": "dist/server.js",
   "scripts": {
+    "start": "gulp && node dist/main.js",
     "test": "mocha"
   },
   "repository": {

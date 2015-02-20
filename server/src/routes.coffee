@@ -9,7 +9,7 @@ module.exports = (db) ->
   # Load actual handlers for /api
   auth     = require('./api/auth.js')(db)
   users    = require('./api/users.js')(db)
-  #projects = require('./api/projects.js')(db)
+  friends  = require('./api/friends.js')(db)
   #members  = require('./api/members.js')(db)
   #tasks    = require('./api/tasks.js')(db)
 
@@ -20,6 +20,8 @@ module.exports = (db) ->
 
   # API Routes
   root.use '/api', api = express.Router()
+
+  root.use '/docs', express.static __dirname + '/docs'
 
   # /*
   api.use '*', accessCtrl.tokenParser()
@@ -44,5 +46,25 @@ module.exports = (db) ->
     # POST /api/users
     .post users.create()
 
+  # /friends
+  api.route '/friends'
+
+    .all accessCtrl.user()
+
+    # GET /api/friends
+    .get friends.get()
+
+    # POST /api/friends
+    .post friends.add()
+
+  api.route '/friends/:id'
+
+    .all accessCtrl.user()
+
+    # DELETE /api/friends/:id
+    .delete friends.remove()
+
+    # PUT /api/friends/:id
+    .put friends.accept()
 
   return root

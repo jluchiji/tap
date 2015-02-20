@@ -2,8 +2,9 @@ gulp      = require 'gulp'
 coffee    = require 'gulp-coffee'
 lint      = require 'gulp-coffeelint'
 sourcemap = require 'gulp-sourcemaps'
+aglio     = require 'gulp-aglio'
 
-gulp.task 'default', ['scripts', 'config', 'config:sql']
+gulp.task 'default', ['scripts', 'config', 'config:sql', 'docs']
 
 gulp.task 'scripts', ->
 
@@ -24,3 +25,9 @@ gulp.task 'config:sql', ->
 
   gulp.src ['config/**/*.sql'], base: './config'
     .pipe gulp.dest './dist/config'
+
+gulp.task 'docs', ->
+
+  gulp.src ['src/docs/index.md']
+    .pipe aglio()
+    .pipe gulp.dest './dist/docs'
