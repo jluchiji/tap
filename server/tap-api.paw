@@ -118,7 +118,7 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"json":"{\\"username\\":\\"test_user2\\",\\"password\\":\\"11111111\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"username\\":\\"User_01\\",\\"password\\":\\"11111111\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="order" type="int64">0</attribute>
         <attribute name="name" type="string">Create</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z113"></relationship>
@@ -262,7 +262,7 @@
         <attribute name="value" type="string">[{"data":{"request":"C7302217-7151-4195-804D-FD031C80B258","keyPath":"result.token","format":1},"identifier":"com.luckymarmot.ResponseBodyPathDynamicValue"}]</attribute>
         <attribute name="order" type="int64">0</attribute>
         <attribute name="name" type="string">X-Tap-Auth</attribute>
-        <attribute name="enabled" type="bool">1</attribute>
+        <attribute name="enabled" type="bool">0</attribute>
         <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
         <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
         <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
@@ -326,7 +326,7 @@
     </object>
     <object type="LMREQUEST" id="z127">
         <attribute name="uuid" type="string">C90B25E5-1335-4FC0-80A6-380AA3DC1ADA</attribute>
-        <attribute name="url" type="string">[{"data":{"environmentVariable":"9DEE0E1F-AE38-482A-9460-1B65CE2E0AC9"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/api\\/friends\\/U04"]</attribute>
+        <attribute name="url" type="string">[{"data":{"environmentVariable":"9DEE0E1F-AE38-482A-9460-1B65CE2E0AC9"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/api\\/friends\\/U01"]</attribute>
         <attribute name="storecookies" type="bool">1</attribute>
         <attribute name="sendcookies" type="bool">1</attribute>
         <attribute name="redirectmethod" type="bool">0</attribute>
@@ -337,7 +337,7 @@
         <attribute name="name" type="string">Remove Friend</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z122"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z126 z128"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z128 z126"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z128">
         <attribute name="value" type="string"></attribute>

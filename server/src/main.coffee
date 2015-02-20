@@ -34,7 +34,7 @@ data.create(
     app.use require('./routes.js')(db)
 
     # Start listening for connections
-    server = app.listen process.env.PORT, ->
+    server = app.listen process.env.PORT ? 3000, ->
       winston.info(
         'Server listening at http://%s:%s',
         server.address().address, server.address().port

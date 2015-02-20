@@ -1,0 +1,7 @@
+{
+  "status": 500,
+  "error": {
+    "time": "Feb-19-2015 10:03:17.004 PM",
+    "message": "Database access failed."
+  }
+}

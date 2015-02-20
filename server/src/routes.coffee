@@ -21,6 +21,8 @@ module.exports = (db) ->
   # API Routes
   root.use '/api', api = express.Router()
 
+  root.use '/docs', express.static __dirname + '/docs'
+
   # /*
   api.use '*', accessCtrl.tokenParser()
 

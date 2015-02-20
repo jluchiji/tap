@@ -7,17 +7,18 @@
 *Does not require `X-Tap-Auth` header.*  
 Authenticates the user, and if successful, returns an authentication token for API access.
 
- + Request
+  + Request (application/json)
 
+    + Body
         <!-- include(req/post-auth.json) -->
 
 
- + Response 200
+  + Response 200 (application/json; charset=utf-8)
 
         <!-- include(res/post-auth-200.json) -->
 
 
- + Response 401
+  + Response 401 (application/json; charset=utf-8)
 
         <!-- include(res/auth-401.json) -->
 
@@ -27,11 +28,17 @@ Authenticates the user, and if successful, returns an authentication token for A
 Takes the **unexpired** and **non-secure** authentication token from the `Authorization` header
 and extends its lifetime by one TTL duration. TTL duration can be changed in server configuration.
 
- + Response 200
+  + Request
+
+    + Headers
+
+        X-Tap-Auth: lMKjVTAxzlTmnTi4U3RqUDhvQUdPeUNRblVjYStKR05Jdz09
+
+  + Response 200 (application/json; charset=utf-8)
 
         <!-- include(res/get-auth-200.json) -->
 
- + Response 401
+  + Response 401 (application/json; charset=utf-8)
 
         <!-- include(res/auth-401.json) -->
 
@@ -41,10 +48,16 @@ and extends its lifetime by one TTL duration. TTL duration can be changed in ser
 Revokes **all** authentication tokens generated for the user and issues a new token for the requesting
 client.
 
- + Response 200
+  + Request
+
+    + Headers
+
+        X-Tap-Auth: lMKjVTAxzlTmnTi4U3RqUDhvQUdPeUNRblVjYStKR05Jdz09
+
+  + Response 200 (application/json; charset=utf-8)
 
         <!-- include(res/delete-auth-200.json) -->
 
- + Response 401
+  + Response 401 (application/json; charset=utf-8)
 
         <!-- include(res/auth-401.json) -->

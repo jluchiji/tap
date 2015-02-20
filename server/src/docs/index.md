@@ -35,6 +35,8 @@ Content-Type: application/json
 ```
 As the header suggests, request body should be of JSON format.
 
-<!-- include(auth/index.md) -->
+<!-- include(src/docs/auth/index.md) -->
 
-<!-- include(user/index.md) -->
+<!-- include(src/docs/user/index.md) -->
+
+<!-- include(src/docs/friends/index.md) -->

@@ -1,0 +1,7 @@
+{
+  "status": 401,
+  "error": {
+    "time": "Feb-19-2015 10:10:48.895 PM",
+    "message": "Authorization denied."
+  }
+}

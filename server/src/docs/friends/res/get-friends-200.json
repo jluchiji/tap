@@ -1,0 +1,17 @@
+{
+  "status": 200,
+  "result": [
+    {
+      "id": "F01",
+      "accepted": 1,
+      "uname": "User_02",
+      "userId": "U02"
+    },
+    {
+      "id": "F02",
+      "accepted": 0,
+      "uname": "User_03",
+      "userId": "U03"
+    }
+  ]
+}
