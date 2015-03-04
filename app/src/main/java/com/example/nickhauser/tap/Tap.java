@@ -1,6 +1,7 @@
 package com.example.nickhauser.tap;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -58,18 +59,13 @@ public class Tap extends ActionBarActivity {
         //TODO - this should actually be implemented by a call to the server; this method is a stub
 
         InvokeServer inv = new InvokeServer();
-        try {
-            //TODO note - incompatable types object to string
-            inv.execute();
-            // String response = httpclient.execute(httppost, responseHandler);
-            // System.out.println(response);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        inv.execute();
+        // String response = httpclient.execute(httppost, responseHandler);
+        // System.out.println(response);
         //inv.onPostExecute();
 
 
-        return true;
+        return false;
     }
 
     //Create a new account in response to button press
@@ -102,7 +98,7 @@ public class Tap extends ActionBarActivity {
         //TODO - this should actually be implemented by a call to the server; this method is a stub
         HttpClient httpclient = new DefaultHttpClient();
         URL url;
-        String urlRead = ""
+        String urlRead = "";
         HttpURLConnection conn;
         BufferedReader rd;
         String result = "";
@@ -162,7 +158,6 @@ public class Tap extends ActionBarActivity {
 
         ResponseHandler<String> responseHandler = new BasicResponseHandler();
         try {
-            //TODO note - incompatable types object to string
             String response = httpclient.execute(httppost, responseHandler);
             System.out.println(response);
         } catch (IOException e) {
@@ -189,7 +184,7 @@ public class Tap extends ActionBarActivity {
         protected JSONObject doInBackground(String... params) {
 
             JSONObject obj = new JSONObject();
-            for (int i = 0; i < params.length(); i = i + 2 ;){
+            for (int i = 0; i < params.length; i = i + 2){
                 try {
                     obj.put(params[i], params[i + 1]);
                 } catch (JSONException e) {
@@ -206,8 +201,6 @@ public class Tap extends ActionBarActivity {
             String result = "";
             String line;
 
-
-            //TODO note - unhandled MalformedURLException
             try {
                 url = new URL(urlRead);
             } catch (MalformedURLException e) {
@@ -220,17 +213,29 @@ public class Tap extends ActionBarActivity {
 
             StringEntity se = null;
             try {
-                se = new StringEntity(js.toString());
+                se = new StringEntity(obj.toString());
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
-            httppost.setEntity((se));
+            httppost.setEntity(se);
             httppost.setHeader("Content-Type:", "application/json");
 
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
-            String response = httpclient.execute(httppost, responseHandler);
+            String response = "";
+            try {
+                //TODO - current exception occurs here
+                response = httpclient.execute(httppost, responseHandler);
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
 
-            JSONObject js = new JSONObject(response);
+            JSONObject js;
+            try {
+                js = new JSONObject();
+                js.put("testTODO", response);
+            }catch (JSONException e) {
+                js = null;
+            }
 
             return js;
         }
@@ -238,8 +243,13 @@ public class Tap extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(JSONObject result) {
-            super.onPostExecute(result);
-            Toast.makeText(InvokeServer.this, "TEST", Toast.LENGTH_SHORT).show();
+
+            EditText textBox = (EditText) findViewById(R.id.password_text);
+            try {
+                textBox.setText(result.getString("testTODO"));
+            }catch (JSONException e) {
+                textBox.setText("FAILED");
+            }
         }
     }
 
