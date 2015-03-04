@@ -69,18 +69,78 @@ public class Tap extends ActionBarActivity {
         }
     }
 
+
     //Ask the server whether the specified username already exists
     private boolean accountExists(String username) {
         //TODO - this should actually be implemented by a call to the server; this method is a stub
-        return false;
+        HttpClient httpclient = new DefaultHttpClient();
+        URL url;
+        HttpURLConnection conn;
+        BufferedReader rd;
+        String result = "";
+        String line;
+
+        try {
+            url = new URL(urlRead);
+            JSONObject list = new JSONObject();
+            conn = (HttpURLConnection)url.openConnection();
+            conn.setRequestMethod("GET");
+            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            while ((line = rd.readLine()) != null) {
+                result += line;
+            }
+            rd.close();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        if (result.contains(username)){
+            return true;
+        }else {
+            return false;
+        }
     }
 
     //Send a request to the server to create a new account using the supplied credentials
     private void createAccount(String username, String password) {
         //TODO - this should actually be implemented by a call to the server; this method is a stub
-    }
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost(urlRead);
 
-    //Request a password reset in response to button press
+
+        JSONObject user = new JSONObject();
+        try {
+            user.put("username", username);
+            user.put("password", password);
+
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        StringEntity se = null;
+        try {
+            se = new StringEntity(user.toString());
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        httppost.setEntity((se));
+        httppost.setHeader("Accept", "application/json");
+        httppost.setHeader("Content-type", "application/json");
+
+        ResponseHandler responseHandler = new BasicResponseHandler();
+        try {
+            httpclient.execute(httppost, responseHandler);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+        //Request a password reset in response to button press
     //display a message notifying the user the request will be processed
     public void buttonForgotPassword(View view) {
         Toast.makeText(this, "Your request will be processed by our admins; you will be emailed shortly.", Toast.LENGTH_LONG).show();
