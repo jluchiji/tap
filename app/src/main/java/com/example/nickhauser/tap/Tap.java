@@ -1,5 +1,6 @@
 package com.example.nickhauser.tap;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
@@ -9,12 +10,16 @@ import android.view.Window;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 import org.json.*;
 import org.json.JSONException;
 
@@ -22,9 +27,12 @@ import java.io.*;
 import java.net.*;
 import java.lang.Override;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Tap extends ActionBarActivity {
+    Context tempContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,35 +45,10 @@ public class Tap extends ActionBarActivity {
     //if they match, move into the app and save the username
     //otherwise, display an error message
     public void buttonLogIn(View view) {
-        //get the username and password provided
-        EditText textBox = (EditText) findViewById(R.id.username_text);
-        String username = textBox.getText().toString();
-        textBox = (EditText) findViewById(R.id.password_text);
-        String password = textBox.getText().toString();
-
-        //ask server to check whether the login credentials are valid
-        if (areCredentialsValid(username, password)) {
-            //enter the application
-            Global.currentUser = username;
-            startActivity(new Intent(this, MenuActivity.class));
-        } else {
-            //display an error message
-            Toast.makeText(this, "Invalid username or password.", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    //Ask the server to validate a provided username password pair
-    private boolean areCredentialsValid(String username, String password) {
-        //TODO - this should actually be implemented by a call to the server; this method is a stub
-
-        InvokeServer inv = new InvokeServer();
-        inv.execute();
-        // String response = httpclient.execute(httppost, responseHandler);
-        // System.out.println(response);
-        //inv.onPostExecute();
-
-
-        return false;
+        //start the validation thread
+        tempContext = this;
+        ValidateCredentials validator = new ValidateCredentials();
+        validator.execute();
     }
 
     //Create a new account in response to button press
@@ -176,82 +159,55 @@ public class Tap extends ActionBarActivity {
 
 
 
-
-    public class InvokeServer extends AsyncTask<String, Integer, JSONObject> {
-
+    //Class to validate a username-password pair
+    public class ValidateCredentials extends AsyncTask<String, Integer, JSONObject> {
 
         @Override
         protected JSONObject doInBackground(String... params) {
-
-            JSONObject obj = new JSONObject();
-            for (int i = 0; i < params.length; i = i + 2){
-                try {
-                    obj.put(params[i], params[i + 1]);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            URL url;
+            //set up variables
             String urlRead = "http://wyvernzora.ninja:3000/api/auth";
-
             HttpClient httpclient = new DefaultHttpClient();
             HttpPost httppost = new HttpPost(urlRead);
-            BufferedReader rd;
-            String result = "";
-            String line;
 
+            //add the input values
+            List nameValuePairs = new ArrayList();
+            EditText textBox = (EditText) findViewById(R.id.username_text);
+            nameValuePairs.add(new BasicNameValuePair("username", textBox.getText().toString()));
+            textBox = (EditText) findViewById(R.id.password_text);
+            nameValuePairs.add(new BasicNameValuePair("password", textBox.getText().toString()));
+
+            //query the server
+            HttpResponse response = null;
             try {
-                url = new URL(urlRead);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-            //HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            //con.setRequestMethod("POST");
-            //con.setRequestProperty("");
-
-
-            StringEntity se = null;
-            try {
-                se = new StringEntity(obj.toString());
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-            httppost.setEntity(se);
-            httppost.setHeader("Content-Type:", "application/json");
-
-            ResponseHandler<String> responseHandler = new BasicResponseHandler();
-            String response = "";
-            try {
-                //TODO - current exception occurs here
-                response = httpclient.execute(httppost, responseHandler);
+                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                response = httpclient.execute(httppost);
             }catch (Exception e) {
                 e.printStackTrace();
             }
 
-            JSONObject js;
+            //return the result
+            JSONObject js = null;
             try {
-                js = new JSONObject();
-                js.put("testTODO", response);
-            }catch (JSONException e) {
-                js = null;
+                js = new JSONObject(EntityUtils.toString(response.getEntity()));
+            }catch (Exception e) {
+                e.printStackTrace();
             }
-
             return js;
         }
 
-
         @Override
         protected void onPostExecute(JSONObject result) {
-
-            EditText textBox = (EditText) findViewById(R.id.password_text);
+            //move into the main app if the login succeeded, display error otherwise
             try {
-                textBox.setText(result.getString("testTODO"));
+                if (result.get("status").toString().equals("401")) {
+                    Toast.makeText(tempContext, "Invalid username or password.", Toast.LENGTH_LONG).show();
+                } else {
+                    Global.currentUser = ((JSONObject)result.get("result")).get("uname").toString();
+                    startActivity(new Intent(tempContext, MenuActivity.class));
+                }
             }catch (JSONException e) {
-                textBox.setText("FAILED");
+                Toast.makeText(tempContext, "Login error; try again.", Toast.LENGTH_LONG).show();
             }
         }
     }
-
-
 }
