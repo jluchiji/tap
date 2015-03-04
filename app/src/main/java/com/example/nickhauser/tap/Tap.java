@@ -114,39 +114,10 @@ public class Tap extends ActionBarActivity {
     //Send a request to the server to create a new account using the supplied credentials
     private void createAccount(String username, String password) {
         //TODO - this should actually be implemented by a call to the server; this method is a stub
-        String urlRead = "http://wyvernzora.ninja:3000/api/users";
+        tempContext = this;
 
-        HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppost = new HttpPost(urlRead);
-
-
-        JSONObject user = new JSONObject();
-        try {
-            user.put("username", username);
-            user.put("password", password);
-
-        } catch (JSONException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        StringEntity se = null;
-        try {
-            se = new StringEntity(user.toString());
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        httppost.setEntity((se));
-        //httppost.setHeader("Accept", "application/json");
-        httppost.setHeader("Content-Type", "application/json");
-
-        ResponseHandler<String> responseHandler = new BasicResponseHandler();
-        try {
-            String response = httpclient.execute(httppost, responseHandler);
-            System.out.println(response);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        CreateCredentials createAcc = new CreateCredentials();
+        createAcc.execute();
 
     }
 
@@ -209,5 +180,59 @@ public class Tap extends ActionBarActivity {
                 Toast.makeText(tempContext, "Login error; try again.", Toast.LENGTH_LONG).show();
             }
         }
+
+    }
+
+
+    //Class to create a username-password pair
+    public class CreateCredentials extends AsyncTask<String, Integer, JSONObject> {
+
+        @Override
+        protected JSONObject doInBackground(String... params) {
+            //set up variables
+            String urlRead = "http://wyvernzora.ninja:3000/api/users";
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost(urlRead);
+
+            //add the input values
+            List nameValuePairs = new ArrayList();
+            EditText textBox = (EditText) findViewById(R.id.username_text);
+            nameValuePairs.add(new BasicNameValuePair("username", textBox.getText().toString()));
+            textBox = (EditText) findViewById(R.id.password_text);
+            nameValuePairs.add(new BasicNameValuePair("password", textBox.getText().toString()));
+
+            //query the server
+            HttpResponse response = null;
+            try {
+                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                response = httpclient.execute(httppost);
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            //return the result
+            JSONObject js = null;
+            try {
+                js = new JSONObject(EntityUtils.toString(response.getEntity()));
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+            return js;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject result) {
+            //move into the main app if the login succeeded, display error otherwise
+            try {
+                if (result.get("status").toString().equals("500")) {
+                    Toast.makeText(tempContext, "Database access fail.", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(tempContext, "Successful creation! You may now login.", Toast.LENGTH_LONG.show());
+                }
+            }catch (JSONException e) {
+                Toast.makeText(tempContext, "Creation error; try again.", Toast.LENGTH_LONG).show();
+            }
+        }
+
     }
 }
