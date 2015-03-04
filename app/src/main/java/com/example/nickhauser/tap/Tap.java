@@ -47,7 +47,7 @@ public class Tap extends ActionBarActivity {
             //enter the application
             Global.currentUser = username;
             startActivity(new Intent(this, MenuActivity.class));
-        }else {
+        } else {
             //display an error message
             Toast.makeText(this, "Invalid username or password.", Toast.LENGTH_LONG).show();
         }
@@ -56,56 +56,17 @@ public class Tap extends ActionBarActivity {
     //Ask the server to validate a provided username password pair
     private boolean areCredentialsValid(String username, String password) {
         //TODO - this should actually be implemented by a call to the server; this method is a stub
-        URL url;
-        String urlRead = "http://wyvernzora.ninja:3000/api/auth";
 
-        HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppost = new HttpPost(urlRead);
-        BufferedReader rd;
-        String result = "";
-        String line;
-
-
-        JSONObject js = new JSONObject();
-        //TODO note - unhandled JSONException
-        try{
-            js.put("username", username);
-            js.put("password", password);
-        }
-        catch(JSONException e){
-            e.printStackTrace();
-        }
-
-        //TODO note - unhandled MalformedURLException
-        try {
-            url = new URL(urlRead);
-        }catch (MalformedURLException e){
-            e.printStackTrace();
-        }
-        //HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        //con.setRequestMethod("POST");
-        //con.setRequestProperty("");
-
-
-        StringEntity se = null;
-        try {
-            se = new StringEntity(js.toString());
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        httppost.setEntity((se));
-        httppost.setHeader("Content-Type:", "application/json");
-
-        ResponseHandler<String> responseHandler = new BasicResponseHandler();
+        InvokeServer inv = new InvokeServer();
         try {
             //TODO note - incompatable types object to string
-            String response = httpclient.execute(httppost, responseHandler);
-            System.out.println(response);
+            inv.execute();
+            // String response = httpclient.execute(httppost, responseHandler);
+            // System.out.println(response);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
+        //inv.onPostExecute();
 
 
         return true;
@@ -126,11 +87,11 @@ public class Tap extends ActionBarActivity {
         //check that the provided credentials meet security requirements
         if (!Global.isStringValid(username, 16, false)) {
             Toast.makeText(this, "Usernames must contain less than 16 letters and must not include spaces.", Toast.LENGTH_LONG).show();
-        }else if (!Global.isStringValid(password, 128, true)) {
+        } else if (!Global.isStringValid(password, 128, true)) {
             Toast.makeText(this, "Your password is too long.", Toast.LENGTH_LONG).show();
-        }else if (accountExists(username)) {
+        } else if (accountExists(username)) {
             Toast.makeText(this, "An account with that name already exists.", Toast.LENGTH_LONG).show();
-        }else {
+        } else {
             createAccount(username, password);
         }
     }
@@ -150,7 +111,7 @@ public class Tap extends ActionBarActivity {
         try {
             url = new URL(urlRead);
             JSONObject list = new JSONObject();
-            conn = (HttpURLConnection)url.openConnection();
+            conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             while ((line = rd.readLine()) != null) {
@@ -164,9 +125,9 @@ public class Tap extends ActionBarActivity {
         }
 
 
-        if (result.contains(username)){
+        if (result.contains(username)) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }
@@ -212,10 +173,75 @@ public class Tap extends ActionBarActivity {
     }
 
 
-
-        //Request a password reset in response to button press
+    //Request a password reset in response to button press
     //display a message notifying the user the request will be processed
     public void buttonForgotPassword(View view) {
         Toast.makeText(this, "Your request will be processed by our admins; you will be emailed shortly.", Toast.LENGTH_LONG).show();
     }
+
+
+
+
+    public class InvokeServer extends AsyncTask<String, Integer, JSONObject> {
+
+
+        @Override
+        protected JSONObject doInBackground(String... params) {
+
+            JSONObject obj = new JSONObject();
+            for (int i = 0; i < params.length(); i = i + 2 ;){
+                try {
+                    obj.put(params[i], params[i + 1]);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            URL url;
+            String urlRead = "http://wyvernzora.ninja:3000/api/auth";
+
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost(urlRead);
+            BufferedReader rd;
+            String result = "";
+            String line;
+
+
+            //TODO note - unhandled MalformedURLException
+            try {
+                url = new URL(urlRead);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            //HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            //con.setRequestMethod("POST");
+            //con.setRequestProperty("");
+
+
+            StringEntity se = null;
+            try {
+                se = new StringEntity(js.toString());
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            httppost.setEntity((se));
+            httppost.setHeader("Content-Type:", "application/json");
+
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            String response = httpclient.execute(httppost, responseHandler);
+
+            JSONObject js = new JSONObject(response);
+
+            return js;
+        }
+
+
+        @Override
+        protected void onPostExecute(JSONObject result) {
+            super.onPostExecute(result);
+            Toast.makeText(InvokeServer.this, "TEST", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
 }
