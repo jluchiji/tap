@@ -8,11 +8,16 @@ import android.view.Window;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import org.json.JSONObject;
-
-import java.io.IOException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.*;
+import java.io.*;
+import java.net.*;
 import java.lang.Override;
-import java.net.HttpURLConnection;
 
 
 public class Tap extends ActionBarActivity {
@@ -59,9 +64,11 @@ public class Tap extends ActionBarActivity {
 
 
         JSONObject js = new JSONObject();
+        //TODO note - unhandled JSONException
         js.put("username", username);
         js.put("password", password);
 
+        //TODO note - unhandled MalformedURLException
         url = new URL(urlRead);
         //HttpURLConnection con = (HttpURLConnection) url.openConnection();
         //con.setRequestMethod("POST");
@@ -79,6 +86,7 @@ public class Tap extends ActionBarActivity {
 
         ResponseHandler responseHandler = new BasicResponseHandler();
         try {
+            //TODO note - incompatable types object to string
             String response = httpclient.execute(httppost, responseHandler);
             System.out.println(response);
         } catch (IOException e) {
@@ -181,6 +189,7 @@ public class Tap extends ActionBarActivity {
 
         ResponseHandler responseHandler = new BasicResponseHandler();
         try {
+            //TODO note - incompatable types object to string
             String response = httpclient.execute(httppost, responseHandler);
             System.out.println(response);
         } catch (IOException e) {
