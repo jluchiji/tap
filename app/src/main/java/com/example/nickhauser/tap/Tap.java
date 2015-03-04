@@ -8,6 +8,12 @@ import android.view.Window;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.lang.Override;
+import java.net.HttpURLConnection;
+
 
 public class Tap extends ActionBarActivity {
 
@@ -42,6 +48,46 @@ public class Tap extends ActionBarActivity {
     //Ask the server to validate a provided username password pair
     private boolean areCredentialsValid(String username, String password) {
         //TODO - this should actually be implemented by a call to the server; this method is a stub
+        URL url;
+        String urlRead = "http://wyvernzora.ninja:3000/api/auth";
+
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost(urlRead);
+        BufferedReader rd;
+        String result = "";
+        String line;
+
+
+        JSONObject js = new JSONObject();
+        js.put("username", username);
+        js.put("password", password);
+
+        url = new URL(urlRead);
+        //HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        //con.setRequestMethod("POST");
+        //con.setRequestProperty("");
+
+
+        StringEntity se = null;
+        try {
+            se = new StringEntity(js.toString());
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        httppost.setEntity((se));
+        httppost.setHeader("Content-Type:", "application/json");
+
+        ResponseHandler responseHandler = new BasicResponseHandler();
+        try {
+            String response = httpclient.execute(httppost, responseHandler);
+            System.out.println(response);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+
         return true;
     }
 
@@ -75,6 +121,7 @@ public class Tap extends ActionBarActivity {
         //TODO - this should actually be implemented by a call to the server; this method is a stub
         HttpClient httpclient = new DefaultHttpClient();
         URL url;
+        String urlRead = ""
         HttpURLConnection conn;
         BufferedReader rd;
         String result = "";
@@ -107,6 +154,8 @@ public class Tap extends ActionBarActivity {
     //Send a request to the server to create a new account using the supplied credentials
     private void createAccount(String username, String password) {
         //TODO - this should actually be implemented by a call to the server; this method is a stub
+        String urlRead = "http://wyvernzora.ninja:3000/api/users";
+
         HttpClient httpclient = new DefaultHttpClient();
         HttpPost httppost = new HttpPost(urlRead);
 
@@ -127,16 +176,19 @@ public class Tap extends ActionBarActivity {
             e.printStackTrace();
         }
         httppost.setEntity((se));
-        httppost.setHeader("Accept", "application/json");
-        httppost.setHeader("Content-type", "application/json");
+        //httppost.setHeader("Accept", "application/json");
+        httppost.setHeader("Content-Type", "application/json");
 
         ResponseHandler responseHandler = new BasicResponseHandler();
         try {
-            httpclient.execute(httppost, responseHandler);
+            String response = httpclient.execute(httppost, responseHandler);
+            System.out.println(response);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+
+    }
 
 
 
