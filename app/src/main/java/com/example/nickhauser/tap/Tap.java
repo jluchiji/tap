@@ -47,8 +47,8 @@ public class Tap extends ActionBarActivity {
     public void buttonLogIn(View view) {
         //start the validation thread
         tempContext = this;
-        ValidateCredentials validator = new ValidateCredentials();
-        validator.execute();
+        ValidateCredentials validateAcc = new ValidateCredentials();
+        validateAcc.execute();
     }
 
     //Create a new account in response to button press
@@ -79,7 +79,7 @@ public class Tap extends ActionBarActivity {
     //Ask the server whether the specified username already exists
     private boolean accountExists(String username) {
         //TODO - this should actually be implemented by a call to the server; this method is a stub
-        HttpClient httpclient = new DefaultHttpClient();
+        /*HttpClient httpclient = new DefaultHttpClient();
         URL url;
         String urlRead = "";
         HttpURLConnection conn;
@@ -108,17 +108,17 @@ public class Tap extends ActionBarActivity {
             return true;
         } else {
             return false;
-        }
+        }*/
+
+        return false;
     }
 
     //Send a request to the server to create a new account using the supplied credentials
     private void createAccount(String username, String password) {
         //TODO - this should actually be implemented by a call to the server; this method is a stub
         tempContext = this;
-
         CreateCredentials createAcc = new CreateCredentials();
         createAcc.execute();
-
     }
 
 
@@ -225,9 +225,9 @@ public class Tap extends ActionBarActivity {
             //move into the main app if the login succeeded, display error otherwise
             try {
                 if (result.get("status").toString().equals("500")) {
-                    Toast.makeText(tempContext, "Database access fail.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(tempContext, "Database access failed.", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(tempContext, "Successful creation! You may now login.", Toast.LENGTH_LONG.show());
+                    Toast.makeText(tempContext, "Successful creation! You may now login.", Toast.LENGTH_LONG).show();
                 }
             }catch (JSONException e) {
                 Toast.makeText(tempContext, "Creation error; try again.", Toast.LENGTH_LONG).show();
