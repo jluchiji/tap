@@ -15,9 +15,12 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.*;
+import org.json.JSONException;
+
 import java.io.*;
 import java.net.*;
 import java.lang.Override;
+import java.net.MalformedURLException;
 
 
 public class Tap extends ActionBarActivity {
@@ -65,11 +68,20 @@ public class Tap extends ActionBarActivity {
 
         JSONObject js = new JSONObject();
         //TODO note - unhandled JSONException
-        js.put("username", username);
-        js.put("password", password);
+        try{
+            js.put("username", username);
+            js.put("password", password);
+        }
+        catch(JSONException e){
+            e.printStackTrace();
+        }
 
         //TODO note - unhandled MalformedURLException
-        url = new URL(urlRead);
+        try {
+            url = new URL(urlRead);
+        }catch (MalformedURLException e){
+            e.printStackTrace();
+        }
         //HttpURLConnection con = (HttpURLConnection) url.openConnection();
         //con.setRequestMethod("POST");
         //con.setRequestProperty("");
@@ -84,7 +96,7 @@ public class Tap extends ActionBarActivity {
         httppost.setEntity((se));
         httppost.setHeader("Content-Type:", "application/json");
 
-        ResponseHandler responseHandler = new BasicResponseHandler();
+        ResponseHandler<String> responseHandler = new BasicResponseHandler();
         try {
             //TODO note - incompatable types object to string
             String response = httpclient.execute(httppost, responseHandler);
@@ -187,7 +199,7 @@ public class Tap extends ActionBarActivity {
         //httppost.setHeader("Accept", "application/json");
         httppost.setHeader("Content-Type", "application/json");
 
-        ResponseHandler responseHandler = new BasicResponseHandler();
+        ResponseHandler<String> responseHandler = new BasicResponseHandler();
         try {
             //TODO note - incompatable types object to string
             String response = httpclient.execute(httppost, responseHandler);
