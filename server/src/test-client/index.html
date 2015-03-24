@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tap Test</title>
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io.connect('', {token: 'AAAAAA'});
+
+      $(function() {
+        $('#tap').click(function() {
+          socket.emit('tap');
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <h1>Hello World</h1>
+    <button id="tap">TAP</button>
+  </body>
+</html>

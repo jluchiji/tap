@@ -4,7 +4,7 @@ lint      = require 'gulp-coffeelint'
 sourcemap = require 'gulp-sourcemaps'
 aglio     = require 'gulp-aglio'
 
-gulp.task 'default', ['scripts', 'config', 'config:sql', 'docs']
+gulp.task 'default', ['scripts', 'config', 'config:sql', 'docs', 'test-client']
 
 gulp.task 'scripts', ->
 
@@ -31,3 +31,8 @@ gulp.task 'docs', ->
   gulp.src ['src/docs/index.md']
     .pipe aglio()
     .pipe gulp.dest './dist/docs'
+
+gulp.task 'test-client', ->
+
+  gulp.src ['src/test-client/**'], base: './src/test-client'
+    .pipe gulp.dest './dist/test-client'

@@ -10,8 +10,8 @@ module.exports = (db) ->
   auth     = require('./api/auth.js')(db)
   users    = require('./api/users.js')(db)
   friends  = require('./api/friends.js')(db)
-  #members  = require('./api/members.js')(db)
-  #tasks    = require('./api/tasks.js')(db)
+  groups   = require('./api/groups.js')(db)
+  members  = require('./api/members.js')(db)
 
 
   root = express.Router()
@@ -22,6 +22,7 @@ module.exports = (db) ->
   root.use '/api', api = express.Router()
 
   root.use '/docs', express.static __dirname + '/docs'
+  root.use '/test', express.static __dirname + '/test-client'
 
   # /*
   api.use '*', accessCtrl.tokenParser()
@@ -66,5 +67,20 @@ module.exports = (db) ->
 
     # PUT /api/friends/:id
     .put friends.accept()
+
+  # /groups
+  api.route '/groups'
+
+    .all accessCtrl.user()
+
+    # POST /api/groups
+    .post groups.create()
+
+  api.route '/groups/:groupId/members'
+
+    .all accessCtrl.user()
+
+    # POST /api/:groupId/members
+    .post members.invite()
 
   return root
