@@ -4,6 +4,8 @@ require('source-map-support').install()
 # Express.js app
 express  = require('express')
 app = module.exports.app = express()
+http = require('http').Server(app)
+io = require('socket.io')(http)
 
 # Other modules
 path     = require('path')
@@ -18,6 +20,16 @@ if process.env.NODE_ENV is 'gulp'
   chalk.enabled = yes
   chalk.supportsColor = yes
   winston.info 'Forcing chalk color support.'
+
+# Socket.IO
+io.on 'connection', (socket) ->
+  winston.info 'User Connected'
+  winston.info socket.handshake.query
+  # Determine user's active group and join the room
+
+  
+  socket.on 'tap', ->
+    winston.info 'Tap!'
 
 # Create database and launch the server
 data = require('./data.js')
@@ -34,7 +46,7 @@ data.create(
     app.use require('./routes.js')(db)
 
     # Start listening for connections
-    server = app.listen process.env.PORT ? 3000, ->
+    server = http.listen process.env.PORT ? 3000, ->
       winston.info(
         'Server listening at http://%s:%s',
         server.address().address, server.address().port

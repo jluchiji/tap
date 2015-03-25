@@ -21,7 +21,7 @@ module.exports = (db) ->
       schema =
         username: /^[\w]{6,}$/
         password: String
-
+        
       # Start the Conveyor
       (conveyor = new Conveyor req, res, params: req.body)
         .then

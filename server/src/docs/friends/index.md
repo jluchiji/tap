@@ -14,7 +14,7 @@ Gets a list of user's friends.
 
   + Response 200 (application/json; charset=utf-8)
 
-        <!-- include(res/post-friends-201.json) -->
+        <!-- include(res/get-friends-200.json) -->
 
 
   + Response 401 (application/json; charset=utf-8)

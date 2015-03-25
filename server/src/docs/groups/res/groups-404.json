@@ -1,0 +1,7 @@
+{
+  "status": 404,
+  "error": {
+    "time": "Mar-25-2015 06:21:17.544 AM",
+    "message": "Group with the specified ID does not exist."
+  }
+}
