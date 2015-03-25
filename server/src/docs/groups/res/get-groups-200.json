@@ -1,0 +1,15 @@
+{
+  "status": 200,
+  "result": [
+    {
+      "id": "Xyz1fTE5",
+      "name": "Group 2",
+      "accepted": 1
+    },
+    {
+      "id": "QkPs3hV5",
+      "name": "Test Group, Please Ignore",
+      "accepted": 0
+    }
+  ]
+}

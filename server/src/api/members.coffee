@@ -3,57 +3,97 @@ Conveyor = require('../lib/conveyor.js')
 
 module.exports = (db) ->
 
+  users  = require('../models/users.js')(db)
   groups = require('../models/groups.js')(db)
   members = require('../models/members.js')(db)
 
   self = { }
 
+  self.list = ->
+    return (req, res) ->
+
+      (conveyor = new Conveyor req, res, group: req.authGroup)
+        .then
+          input: 'group',
+          members.list
+        .then conveyor.success
+        .catch conveyor.error
+        .done()
+
   self.invite = ->
     return (req, res) ->
 
       schema = user: String
-      query = groupId: String
 
-      (conveyor = new Conveyor req, res, user: req.authUser, params: req.body, query: req.params)
+      (conveyor = new Conveyor req, res,
+        user:   req.authUser,
+        params: req.body,
+        group:  req.authGroup
+      )
         .then
           input: 'params',
           schema: schema,
           util.schema
         .then
-          input: 'query',
-          schema: query,
-          util.schema
+          input: 'params.user',
+          output: 'invitee',
+          users.findById
         .then
-          input: 'query.groupId',
-          output: 'group',
-          groups.find
-        .then
-          input: 'group',
+          status: 400,
+          message: 'User does not exist.',
           util.exists
         .then
-          input: ['group', 'user'],
+          input: ['group', 'invitee'],
+          output: 'membership',
+          members.find
+        .then
+          input: 'membership',
+          (membership) ->
+            if membership then @conveyor.panic(
+              'Cannot invite an existing member.', 400
+            )
+        .then
+          input: ['group', 'invitee'],
           output: 'membership',
           members.invite
-        .then conveyor.success
+        .then
+          status: 201,
+          conveyor.success
         .catch conveyor.error
         .done()
 
   self.accept = ->
     return (req, res) ->
 
-      query = groupId: String
-
-      (conveyor = new Conveyor req, res, user: req.authUser, query: req.params)
+      (conveyor = new Conveyor req, res,
+        user: req.authUser,
+        group: req.authGroup
+      )
         .then
-          input: 'query',
-          schema: query,
-          util.schema
-        .then
-          input: ['user', 'query.groupId'],
+          input: ['group', 'user'],
           members.accept
         .then
-          input: 'nothing',
+          input: 'group',
+          output: 'group.members',
+          members.list
+        .then
+          input: 'group',
           conveyor.success
+        .catch conveyor.error
+        .done()
+
+  self.leave = ->
+    return (req, res) ->
+
+      (conveyor = new Conveyor req, res,
+        user: req.authUser,
+        group: req.authGroup
+      )
+        .then
+          input: ['group', 'user'],
+          members.leave
+        .then output: 'result', -> yes
+        .then conveyor.success
         .catch conveyor.error
         .done()
 

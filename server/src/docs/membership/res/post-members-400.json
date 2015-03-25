@@ -1,0 +1,7 @@
+{
+  "status": 400,
+  "error": {
+    "time": "Mar-25-2015 06:44:43.999 AM",
+    "message": "Cannot invite an existing member."
+  }
+}

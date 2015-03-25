@@ -6,6 +6,26 @@ module.exports = (db) ->
 
   self = { }
 
+  self.list = (group) ->
+    query = squel.select()
+      .from('user_group')
+      .field('users.id')
+      .field('users.uname')
+      .field('user_group.accepted')
+      .left_join('users', null, 'users.id = user_group.ownerId')
+      .where('user_group.groupId = ?', group.id)
+    db.all query
+
+  self.find = (group, user) ->
+    query = squel.select()
+      .from('user_group')
+      .where(
+        squel.expr()
+          .and('user_group.ownerId = ?', user.id)
+          .and('user_group.groupId = ?', group.id)
+      )
+    db.get query
+
   self.invite = (group, user) ->
     accept = if @config?.accept then 1 else 0
     uid = shortid.generate()

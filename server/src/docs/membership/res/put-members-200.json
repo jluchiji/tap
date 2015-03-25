@@ -1,0 +1,30 @@
+{
+  "status": 200,
+  "result": {
+    "id": "QkPs3hV5",
+    "name": "Test Group, Please Ignore",
+    "accepted": 1,
+    "members": [
+      {
+        "id": "U01",
+        "uname": "User_01",
+        "accepted": 1
+      },
+      {
+        "id": "U02",
+        "uname": "User_02",
+        "accepted": 1
+      },
+      {
+        "id": "U03",
+        "uname": "User_03",
+        "accepted": 0
+      },
+      {
+        "id": "U04",
+        "uname": "User_04",
+        "accepted": 0
+      }
+    ]
+  }
+}

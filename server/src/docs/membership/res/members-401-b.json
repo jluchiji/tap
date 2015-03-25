@@ -1,0 +1,7 @@
+{
+  "status": 400,
+  "error": {
+    "time": "Mar-25-2015 06:40:47.380 AM",
+    "message": "Authorization denied: user must accept invitation."
+  }
+}

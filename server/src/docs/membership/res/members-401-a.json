@@ -1,0 +1,7 @@
+{
+  "status": 401,
+  "error": {
+    "time": "Mar-25-2015 06:39:55.260 AM",
+    "message": "Authorization denied: group membership invalid."
+  }
+}

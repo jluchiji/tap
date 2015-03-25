@@ -40,3 +40,7 @@ As the header suggests, request body should be of JSON format.
 <!-- include(src/docs/user/index.md) -->
 
 <!-- include(src/docs/friends/index.md) -->
+
+<!-- include(src/docs/groups/index.md) -->
+
+<!-- include(src/docs/membership/index.md) -->

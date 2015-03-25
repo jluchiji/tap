@@ -140,4 +140,76 @@ module.exports = (db) ->
           conveyor.error
         .done()
 
+  # ------------------------------------------------------------------------- #
+  # Indicates that the route(s) require group-membership authentication.      #
+  #                                                                           #
+  # allowPending - If true, also allow pending members to access the API.     #
+  #                                                                           #
+  # ------------------------------------------------------------------------- #
+  self.group = (allowPending = no) ->
+    return (req, res, next) ->
+      # Use a conveyor to handle the stuff
+      conveyor = new Conveyor req, res, user: req.authUser, params: req.params
+      conveyor
+        # Parameter sanity check
+        .then
+          input: ['user', 'params'],
+          (user, params) ->
+            # User is undefined only if user() is not loaded
+            if user is undefined
+              @conveyor.panic('undefined user: did you load user()?')
+            # URL does not contain Group ID, fail
+            if not params.groupId
+              @conveyot.panic(
+                'URL must have :groupId segment for group-level access.'
+              )
+        # Find the group
+        .then
+          input: ['params.groupId'],
+          output: 'group',
+          (id) ->
+            db.get squel.select().from('groups').where('id = ?', id)
+        # Make sure that the group exists
+        .then
+          status: 404,
+          message: 'Group with the specified ID does not exist.',
+          util.exists
+        # Find user membership
+        .then
+          input: ['user', 'params'],
+          output: 'membership',
+          (user, params) ->
+            query = squel.select()
+              .from('user_group')
+              .field('groups.*')
+              .field('user_group.accepted')
+              .left_join('groups')
+              .where(
+                squel.expr()
+                  .and('user_group.ownerId = ?', user.id)
+                  .and('user_group.groupId = ?', params.groupId)
+              )
+            return db.get query
+        # Make sure the membership exists
+        .then
+          status: 401,
+          message: 'Authorization denied: group membership invalid.',
+          util.exists
+        # Check if the user is pending and such users are allowed
+        .then
+          input: 'membership',
+          (group) ->
+            if not allowPending and group.accepted is 0
+              @conveyor.panic(
+                'Authorization denied: user must accept invitation.', 400)
+        # Go ahead and go on
+        .then
+          input: 'membership',
+          (group) ->
+            req.authGroup = group
+            next()
+        # Report a problem
+        .catch conveyor.error
+        .done()
+
   return self
