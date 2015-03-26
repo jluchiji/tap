@@ -7,6 +7,7 @@ app = module.exports.app = express()
 http = require('http').Server(app)
 io = require('socket.io')(http)
 
+
 # Other modules
 path     = require('path')
 chalk    = require('chalk')
@@ -22,14 +23,7 @@ if process.env.NODE_ENV is 'gulp'
   winston.info 'Forcing chalk color support.'
 
 # Socket.IO
-io.on 'connection', (socket) ->
-  winston.info 'User Connected'
-  winston.info socket.handshake.query
-  # Determine user's active group and join the room
-
-  
-  socket.on 'tap', ->
-    winston.info 'Tap!'
+io.on 'connection', require('./socket.js')(io)
 
 # Create database and launch the server
 data = require('./data.js')

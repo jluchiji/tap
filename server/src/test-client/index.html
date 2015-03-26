@@ -11,11 +11,26 @@
         $('#tap').click(function() {
           socket.emit('tap');
         });
+        $('#join').click(function() {
+          socket.emit('join', {roomId: $('#roomid').val() });
+        });
+        $('#leave').click(function() {
+          socket.emit('leave');
+        });
+
+        socket.on('tap', function() { console.log((new Date()).toString() + ' : TAP!'); });
       });
     </script>
   </head>
   <body>
     <h1>Hello World</h1>
-    <button id="tap">TAP</button>
+    <div>
+      <button id="tap">TAP</button>
+    </div>
+    <div>
+      <input id="roomid" type="text" placeholder="Group ID" >
+      <button id="join">JOIN</button>
+      <button id="leave">LEAVE</button>
+    </div>
   </body>
 </html>
