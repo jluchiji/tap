@@ -23,7 +23,7 @@ module.exports = (db) ->
 
   root.use '/docs', express.static __dirname + '/docs'
   root.use '/test', express.static __dirname + '/test-client'
-  root.use '/logs', (req, res) -> res.sendFile 'server.log'
+  root.use '/logs', (req, res) -> res.sendFile __dirname + '/server.log'
 
   # /*
   api.use '*', accessCtrl.tokenParser()
