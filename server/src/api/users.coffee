@@ -55,7 +55,11 @@ module.exports = (db) ->
   self.find = ->
     return (req, res) ->
       # Schema for required parameters
-      schema = username:  /^[\w]{6,}$/
+      schema = prefix:  /^[\w]+$/
+
+      # Backward-compatibility
+      if req.params.username and not req.params.prefix
+        req.params.prefix = req.params.username
 
       # Start the Conveyor
       (conveyor = new Conveyor req, res, params: req.params)
@@ -64,16 +68,13 @@ module.exports = (db) ->
           schema: schema,
           util.schema
         .then
-          input: 'params.username',
-          output: 'user',
-          users.findByUname
-        .then
-          status: 404,
-          message: 'User not found.',
-          util.exists
-        .then users.sanitize
+          input: 'params.prefix',
+          output: 'users',
+          users.findByPrefix
         .then conveyor.success
         .catch conveyor.error
         .done()
+
+
 
   return self

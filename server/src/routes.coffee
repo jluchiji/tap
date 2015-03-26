@@ -47,6 +47,11 @@ module.exports = (db) ->
     # POST /api/users
     .post users.create()
 
+  api.route '/users/:prefix'
+
+    # GET /api/users/:prefix
+    .get users.find()
+
   # /friends
   api.route '/friends'
 

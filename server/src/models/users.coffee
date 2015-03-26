@@ -5,6 +5,14 @@ module.exports = (db) ->
 
   self = { }
 
+  self.findByPrefix = (prefix) ->
+    query = squel.select()
+      .from('users')
+      .field('id')
+      .field('uname')
+      .where('uname LIKE ?', prefix + '%')
+    db.all query
+
   self.findByUname = (uname) ->
     query = squel.select()
       .from('users')

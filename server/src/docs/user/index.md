@@ -1,5 +1,18 @@
 # Group User Accounts
 
+# Find [/api/users/:prefix]
+
+# GET
+
+*Does not require `X-Tap-Auth` header.*  
+Finds users whose usernames begin with the `:prefix`.
+
+  + Response 200 (application/json; charset=utf-8)
+
+        <!-- include(res/get-users-200.json) -->
+
+
+
 # Create [/api/users]
 
 # POST

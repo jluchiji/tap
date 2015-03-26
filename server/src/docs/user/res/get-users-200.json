@@ -1,0 +1,25 @@
+{
+  "status": 200,
+  "result": [
+    {
+      "id": "U01",
+      "uname": "User_01"
+    },
+    {
+      "id": "U02",
+      "uname": "User_02"
+    },
+    {
+      "id": "U03",
+      "uname": "User_03"
+    },
+    {
+      "id": "U04",
+      "uname": "User_04"
+    },
+    {
+      "id": "Q1-YDYeO",
+      "uname": "User_05"
+    }
+  ]
+}
