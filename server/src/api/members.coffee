@@ -37,7 +37,7 @@ module.exports = (db) ->
         .then
           input: 'params.user',
           output: 'invitee',
-          users.findById
+          users.findByUname
         .then
           status: 400,
           message: 'User does not exist.',

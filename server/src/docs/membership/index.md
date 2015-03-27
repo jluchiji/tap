@@ -36,13 +36,13 @@ Lists all members of the given group, including outstanding invitations.
 Invites a user to become the group member.  
 *Requires accepted group membership.*
 
-  + Request
+  + Request (application/json; charset=utf-8)
 
     + Headers
 
       X-Tap-Auth: lMKjVTAxzlTmnTi4U3RqUDhvQUdPeUNRblVjYStKR05Jdz09
 
-    + Body (application/json; charset=utf-8)
+    + Body
 
         <!-- include(req/post-members.json) -->
 
@@ -114,7 +114,7 @@ Removes the requesting user from the group.
   + Response 200 (application/json; charset=utf-8)
 
         <!-- include(res/delete-members-200.json) -->
-        
+
   + Response 401 (application/json; charset=utf-8)
 
         <!-- include(res/members-401.json) -->
